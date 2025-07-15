@@ -8,7 +8,7 @@ import config from './config';
 import { LOGGER_OPTIONS } from './utils';
 import { CommonModule } from './apis/common';
 import { ApiModule } from './apis';
-import { DefaultExceptionFilter } from './filters';
+import { DefaultExceptionFilter, NotFoundExceptionFilter } from './filters';
 
 @Module({
 	imports: [
@@ -32,6 +32,10 @@ import { DefaultExceptionFilter } from './filters';
 		{
 			provide: APP_FILTER,
 			useClass: DefaultExceptionFilter,
+		},
+		{
+			provide: APP_FILTER,
+			useClass: NotFoundExceptionFilter,
 		},
 	],
 })
