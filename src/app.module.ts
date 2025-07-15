@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
@@ -8,6 +8,7 @@ import config from './config';
 import { LOGGER_OPTIONS } from './utils';
 import { CommonModule } from './apis/common';
 import { ApiModule } from './apis';
+import { ResponseInterceptor } from './interceptors';
 import {
 	DefaultExceptionFilter,
 	NotFoundExceptionFilter,
@@ -33,6 +34,10 @@ import {
 	],
 	controllers: [],
 	providers: [
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: ResponseInterceptor,
+		},
 		{
 			provide: APP_FILTER,
 			useClass: ValidationExceptionFilter,
