@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SysUserEntity } from './entities/demo.entity';
+import { DemoEntity } from '@/entities';
 
 import { CreateDemoDto } from './dto/create-demo.dto';
 import { UpdateDemoDto } from './dto/update-demo.dto';
@@ -9,8 +9,8 @@ import { UpdateDemoDto } from './dto/update-demo.dto';
 @Injectable()
 export class DemoService {
 	constructor(
-		@InjectRepository(SysUserEntity)
-		private userModel: Repository<SysUserEntity>,
+		@InjectRepository(DemoEntity)
+		private demoModel: Repository<DemoEntity>,
 	) {}
 	create(createDemoDto: CreateDemoDto) {
 		return 'This action adds a new demo';
@@ -18,7 +18,7 @@ export class DemoService {
 
 	async findAll() {
 		// return `This action returns all demo`;
-		return this.userModel.find();
+		return this.demoModel.find();
 	}
 
 	findOne(id: number) {

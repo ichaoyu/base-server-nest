@@ -14,7 +14,9 @@ export default registerAs('', () => {
 			port: 3306,
 			username: 'root',
 			password: '1qazxsw2',
-			database: 'nest-service',
+			database: 'base-nest-service',
+			keepConnectionAlive: true,
+			timezone: '+08:00',
 			autoLoadEntities: true,
 		},
 	};

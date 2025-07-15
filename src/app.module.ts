@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
 
 import { CONFIG_OPTIONS, LOGGER_OPTIONS, TYPEORM_OPTIONS } from './options';
+import { SharedModule } from './shared';
 import { IndexModule } from './modules';
 
 @Module({
@@ -11,6 +12,7 @@ import { IndexModule } from './modules';
 		ConfigModule.forRoot(CONFIG_OPTIONS),
 		WinstonModule.forRootAsync(LOGGER_OPTIONS),
 		TypeOrmModule.forRootAsync(TYPEORM_OPTIONS),
+		SharedModule,
 		IndexModule,
 	],
 	controllers: [],
