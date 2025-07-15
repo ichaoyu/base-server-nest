@@ -10,7 +10,6 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost } from '@nestjs/core';
 import { MESSAGES } from '@/constants';
-import { DefaultExceptionFilter } from './default.filter';
 
 @Catch(NotFoundException)
 export class NotFoundExceptionFilter implements ExceptionFilter {
@@ -34,7 +33,7 @@ export class NotFoundExceptionFilter implements ExceptionFilter {
 			this.loggerService.error(
 				message,
 				exception.stack,
-				DefaultExceptionFilter.name,
+				NotFoundExceptionFilter.name,
 			);
 
 			httpAdapter.reply(ctx.getResponse(), { status, message }, status);

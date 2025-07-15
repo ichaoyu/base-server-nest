@@ -18,10 +18,10 @@ export class DefaultExceptionFilter implements ExceptionFilter {
 	constructor(
 		@Inject(WINSTON_MODULE_NEST_PROVIDER)
 		private readonly loggerService: LoggerService,
-		private readonly httpAdapter: HttpAdapterHost,
+		private readonly httpAdapterHost: HttpAdapterHost,
 	) {}
 	catch(exception: unknown, host: ArgumentsHost) {
-		const { httpAdapter } = this.httpAdapter;
+		const { httpAdapter } = this.httpAdapterHost;
 		const ctx = host.switchToHttp();
 		const status =
 			exception instanceof HttpException
@@ -29,7 +29,7 @@ export class DefaultExceptionFilter implements ExceptionFilter {
 				: HttpStatus.INTERNAL_SERVER_ERROR;
 		const message =
 			exception instanceof HttpException
-				? exception.getResponse()
+				? exception.message
 				: MESSAGES.INTERNAL_SERVER_ERROR;
 
 		this.loggerService.error(
@@ -39,6 +39,7 @@ export class DefaultExceptionFilter implements ExceptionFilter {
 			DefaultExceptionFilter.name,
 		);
 
+		console.log('message: ', message);
 		httpAdapter.reply(ctx.getResponse(), { status, message }, status);
 	}
 }
