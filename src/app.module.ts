@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
@@ -7,6 +8,7 @@ import config from './config';
 import { LOGGER_OPTIONS } from './utils';
 import { CommonModule } from './apis/common';
 import { ApiModule } from './apis';
+import { DefaultExceptionFilter } from './filters';
 
 @Module({
 	imports: [
@@ -26,6 +28,11 @@ import { ApiModule } from './apis';
 		ApiModule,
 	],
 	controllers: [],
-	providers: [],
+	providers: [
+		{
+			provide: APP_FILTER,
+			useClass: DefaultExceptionFilter,
+		},
+	],
 })
 export class AppModule {}
