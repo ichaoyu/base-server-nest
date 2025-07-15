@@ -1,19 +1,29 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
 
-import { CONFIG_OPTIONS, LOGGER_OPTIONS, TYPEORM_OPTIONS } from './options';
-import { SharedModule } from './shared';
-import { IndexModule } from './modules';
+import config from './config';
+import { LOGGER_OPTIONS } from './utils';
+import { CommonModule } from './apis/common';
+import { ApiModule } from './apis';
 
 @Module({
 	imports: [
-		ConfigModule.forRoot(CONFIG_OPTIONS),
+		ConfigModule.forRoot({
+			load: [config],
+			isGlobal: true,
+		}),
 		WinstonModule.forRootAsync(LOGGER_OPTIONS),
-		TypeOrmModule.forRootAsync(TYPEORM_OPTIONS),
-		SharedModule,
-		IndexModule,
+		TypeOrmModule.forRootAsync({
+			imports: [ConfigModule],
+			useFactory: (configService: ConfigService) => ({
+				...configService.get('typeorm'),
+			}),
+			inject: [ConfigService],
+		}),
+		CommonModule,
+		ApiModule,
 	],
 	controllers: [],
 	providers: [],

@@ -8,4 +8,4 @@ import { DemoEntity } from '@/entities';
 	providers: [],
 	exports: [TypeOrmModule],
 })
-export class SharedModule {}
+export class CommonModule {}
