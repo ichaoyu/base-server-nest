@@ -3,6 +3,9 @@ import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
+import { CacheModule } from '@nestjs/cache-manager';
+
+import { RedisModule } from '@app/redis';
 
 import config from './config';
 import { LOGGER_OPTIONS } from './utils';
@@ -29,6 +32,25 @@ import {
 				...configService.get('typeorm'),
 			}),
 			inject: [ConfigService],
+		}),
+		CacheModule.registerAsync({
+			isGlobal: true,
+			useFactory(configService: ConfigService) {
+				return configService.get('cache');
+			},
+			inject: [ConfigService],
+		}),
+		RedisModule.registerAsync({
+			global: true,
+			createType: 'client',
+			clientToken: Symbol('REDIS_CLIENT'),
+			optionsToken: Symbol('REDIS_CLIENT_OPTIONS'),
+			optionsProvider: {
+				useFactory: (configService: ConfigService) => {
+					return configService.get('redis');
+				},
+				inject: [ConfigService],
+			},
 		}),
 		CommonModule,
 		ApiModule,
