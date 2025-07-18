@@ -6,6 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { LoggerService } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import fastifyMultipart from '@fastify/multipart';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 
@@ -21,6 +22,8 @@ async function bootstrap() {
 
 	app.setGlobalPrefix(apiPath);
 	app.useLogger(logger);
+	// 上传
+	await app.register(fastifyMultipart);
 	/**
 	 * 默认情况下，Fastify 仅监听 localhost 127.0.0.1 接口。只有配置了 0.0.0.0 才能用本机 ip 访问
 	 */

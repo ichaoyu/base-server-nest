@@ -110,4 +110,13 @@ export enum MESSAGES {
 	 * 基础鉴权不正确
 	 */
 	BASIC_AUTH_NOT_CORRECT = '基础鉴权不正确',
+
+	/**
+	 * 无法创建上传目录，请检查权限设置
+	 */
+	CANNOT_CREATE_UPLOAD_DIR = '无法创建上传目录，请检查权限设置',
+	/**
+	 * 文件上传失败
+	 */
+	FILE_UPLOAD_FAILED = '文件上传失败',
 }

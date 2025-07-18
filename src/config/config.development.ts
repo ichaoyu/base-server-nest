@@ -18,6 +18,7 @@ export default registerAs('', () => {
 			docPath: '/swagger-ui',
 			appName: BASE.APP_NAME,
 			queuePath: '/queues',
+			uploadFile: BASE.UPLOAD_FILE,
 		},
 		typeorm: {
 			type: 'mysql',
