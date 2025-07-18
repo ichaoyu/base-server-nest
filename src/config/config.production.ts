@@ -16,6 +16,7 @@ export default registerAs('', () => {
 			port: 3000,
 			apiPath: '/api',
 			appName: BASE.APP_NAME,
+			queuePath: '/queues',
 		},
 		typeorm: {
 			type: 'mysql',
@@ -36,6 +37,12 @@ export default registerAs('', () => {
 		redis: {
 			keyPrefix: '{' + BASE.APP_NAME + '}:{redis}:',
 			...redisOptions,
+		},
+		bull: {
+			redis: {
+				keyPrefix: '{' + BASE.APP_NAME + '}:{bull}',
+				...redisOptions,
+			},
 		},
 	};
 });

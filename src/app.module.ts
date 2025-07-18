@@ -9,9 +9,9 @@ import { RedisModule } from '@app/redis';
 
 import config from './config';
 import { LOGGER_OPTIONS } from './utils';
-import { CommonModule } from './apis/common';
+import { SharedModule, QueuesModule } from './shared';
 import { ApiModule } from './apis';
-import { ResponseInterceptor } from './interceptors';
+import { ResponseInterceptor, CacheKeyInterceptor } from './interceptors';
 import { ValidationPipe } from './pipes';
 import {
 	DefaultExceptionFilter,
@@ -52,11 +52,16 @@ import {
 				inject: [ConfigService],
 			},
 		}),
-		CommonModule,
+		QueuesModule.register(),
+		SharedModule,
 		ApiModule,
 	],
 	controllers: [],
 	providers: [
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: CacheKeyInterceptor,
+		},
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: ResponseInterceptor,

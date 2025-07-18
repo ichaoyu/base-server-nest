@@ -17,6 +17,7 @@ export default registerAs('', () => {
 			apiPath: '/api',
 			docPath: '/swagger-ui',
 			appName: BASE.APP_NAME,
+			queuePath: '/queues',
 		},
 		typeorm: {
 			type: 'mysql',
@@ -37,6 +38,12 @@ export default registerAs('', () => {
 		redis: {
 			keyPrefix: '{' + BASE.APP_NAME + '}:{redis}:',
 			...redisOptions,
+		},
+		bull: {
+			redis: {
+				keyPrefix: '{' + BASE.APP_NAME + '}:{bull}',
+				...redisOptions,
+			},
 		},
 	};
 });
