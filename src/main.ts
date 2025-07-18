@@ -20,6 +20,8 @@ async function bootstrap() {
 	const logger = app.get<LoggerService>(WINSTON_MODULE_NEST_PROVIDER);
 	const { port, apiPath, docPath, appName } = configService.get('app');
 
+	// 允许跨域
+	app.enableCors();
 	app.setGlobalPrefix(apiPath);
 	app.useLogger(logger);
 	// 上传
