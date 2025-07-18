@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { LoggerService } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fastifyMultipart from '@fastify/multipart';
+import fastifyCsrf from '@fastify/csrf-protection';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AppModule } from './app.module';
 
@@ -22,6 +23,8 @@ async function bootstrap() {
 
 	// 允许跨域
 	app.enableCors();
+	// CSRF 防护
+	await app.register(fastifyCsrf);
 	app.setGlobalPrefix(apiPath);
 	app.useLogger(logger);
 	// 上传
