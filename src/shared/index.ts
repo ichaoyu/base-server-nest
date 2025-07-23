@@ -1,2 +1,2 @@
-export * from './shared.module';
+export * from './shared/shared.module';
 export * from './queues';
