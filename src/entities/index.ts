@@ -8,3 +8,5 @@ export * from './sys-oper-log.entity';
 export * from './sys-post.entity';
 export * from './sys-role.entity';
 export * from './sys-user.entity';
+
+export * from './demo.entity';
