@@ -38,8 +38,6 @@ export class DefaultExceptionFilter implements ExceptionFilter {
 			exception.stack,
 			DefaultExceptionFilter.name,
 		);
-
-		console.log('message: ', message);
 		httpAdapter.reply(ctx.getResponse(), { status, message }, status);
 	}
 }

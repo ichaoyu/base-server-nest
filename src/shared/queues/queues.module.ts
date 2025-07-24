@@ -16,8 +16,8 @@ import { FastifyInstance } from 'fastify';
 import { QUEUES } from '@/constants';
 import { BULL_OPTIONS, BULL_QUEUES } from './options';
 
-import { LogLoginProcessor } from './log-login.processor';
-import { LogOperationProcessor } from './log-operation.processor';
+import { LoginLogProcessor } from './log-login.processor';
+import { OperationLogProcessor } from './log-operation.processor';
 
 @Module({})
 export class QueuesModule implements NestModule {
@@ -33,8 +33,8 @@ export class QueuesModule implements NestModule {
 			module: QueuesModule,
 			imports: [BullModule.forRootAsync(BULL_OPTIONS), queues],
 			providers: [
-				LogLoginProcessor,
-				LogOperationProcessor,
+				LoginLogProcessor,
+				OperationLogProcessor,
 				...queues.providers,
 			],
 			exports: [...queues.exports],
@@ -67,7 +67,6 @@ export class QueuesModule implements NestModule {
 		const instance: FastifyInstance =
 			this.adapterHost.httpAdapter.getInstance();
 
-		// @ts-ignore
 		instance.register(serverAdapter.registerPlugin(), {
 			prefix: queuePath,
 		});

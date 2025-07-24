@@ -24,6 +24,7 @@ export class ValidationPipe implements PipeTransform<any> {
 
 			throw new UnprocessableEntityException(errorMsg);
 		}
+		return value;
 	}
 
 	private toValidate(metatype: any): boolean {

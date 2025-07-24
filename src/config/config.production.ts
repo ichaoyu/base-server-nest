@@ -1,5 +1,5 @@
 import { registerAs } from '@nestjs/config';
-import { redisStore } from 'cache-manager-ioredis-yet';
+import KeyvRedis, { Keyv } from '@keyv/redis';
 
 import { BASE } from '@/constants';
 
@@ -30,9 +30,15 @@ export default registerAs('', () => {
 			autoLoadEntities: true,
 		},
 		cache: {
-			store: redisStore,
-			keyPrefix: '{' + BASE.APP_NAME + '}:{cache}:',
-			...redisOptions,
+			stores: [
+				new Keyv({
+					store: new KeyvRedis({
+						url: `redis://${redisOptions.host}:${redisOptions.port}/${redisOptions.db}`,
+					}),
+					namespace: '{' + BASE.APP_NAME + '}:{cache}:',
+					useKeyPrefix: false, // 去掉重复的namespace
+				}),
+			],
 		},
 		redis: {
 			keyPrefix: '{' + BASE.APP_NAME + '}:{redis}:',
@@ -42,6 +48,12 @@ export default registerAs('', () => {
 			redis: {
 				keyPrefix: '{' + BASE.APP_NAME + '}:{bull}',
 				...redisOptions,
+			},
+		},
+		jwt: {
+			secret: 'This$a1$veRy*SEcrEt$s0sEcReT&kEy',
+			signOptions: {
+				expiresIn: 604800000, // 7 days
 			},
 		},
 	};

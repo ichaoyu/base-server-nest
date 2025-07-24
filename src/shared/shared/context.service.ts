@@ -2,7 +2,7 @@ import { Inject, Injectable, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 
 import { IPayload, IRequest } from '@/interfaces';
-import { SharedService } from './shard.service';
+import { SharedService } from './shared.service';
 
 // 上下文服务
 @Injectable({ scope: Scope.REQUEST })

@@ -21,6 +21,12 @@
       "@/*": [
         "src/*"
       ],
+      "@app/captcha": [
+        "libs/captcha/src"
+      ],
+      "@app/captcha/*": [
+        "libs/captcha/src/*"
+      ],
       "@app/redis": [
         "libs/redis/src"
       ],

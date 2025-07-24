@@ -1,9 +1,9 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
-import svgBase64 from 'mini-svg-data-uri';
+import * as svgCaptcha from 'svg-captcha';
+import * as svgBase64 from 'mini-svg-data-uri';
 import { nanoid } from 'nanoid';
-import svgCaptcha from 'svg-captcha';
 
 import { CAPTCHA_MERGED_OPTIONS, letters, numbers } from './captcha.constant';
 import {
@@ -49,6 +49,7 @@ export class CaptchaService {
 			size,
 			noise,
 		});
+		console.log('text: ', text);
 		const id = await this.set(text);
 		const imageBase64 = svgBase64(data);
 		return { id, imageBase64 };

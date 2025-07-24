@@ -13,6 +13,8 @@ import {
 	SysRoleEntity,
 	SysUserEntity,
 } from '@/entities';
+import { ContextService } from './context.service';
+import { SharedService } from './shared.service';
 
 @Global()
 @Module({
@@ -31,7 +33,7 @@ import {
 			SysUserEntity,
 		]),
 	],
-	providers: [],
-	exports: [TypeOrmModule],
+	providers: [SharedService, ContextService],
+	exports: [TypeOrmModule, SharedService, ContextService],
 })
 export class SharedModule {}

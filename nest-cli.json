@@ -16,6 +16,15 @@
     "spec": false
   },
   "projects": {
+    "captcha": {
+      "type": "library",
+      "root": "libs/captcha",
+      "entryFile": "index",
+      "sourceRoot": "libs/captcha/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/captcha/tsconfig.lib.json"
+      }
+    },
     "redis": {
       "type": "library",
       "root": "libs/redis",

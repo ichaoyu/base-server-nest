@@ -1,29 +1,16 @@
 import { BadRequestException } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { isEmpty } from 'lodash-unified';
-import { Systeminformation } from 'systeminformation';
 import { UAParser } from 'ua-parser-js';
 
 import { nanoid } from 'nanoid';
 import { getProperties } from 'properties-file';
-import systeminformation from 'systeminformation';
+import { Systeminformation } from 'systeminformation';
 
-import { BASE } from '@/constants';
+import { BASE, MESSAGES } from '@/constants';
 import { HttpUtil } from './http.util';
 
-/**
- * 获取默认网路信息
- */
-async function getDefaultNetwork(): Promise<Systeminformation.NetworkInterfacesData> {
-	try {
-		// 获取默认网络接口信息
-		const network = await SysUtil.sysinfo.networkInterfaces('default');
-		return network; // 返回网络接口数据
-	} catch (error) {
-		// 如果发生错误，抛出 BadRequestException 异常
-		throw new BadRequestException('获取默认网络信息失败');
-	}
-}
+const si = require('systeminformation');
 
 export const SysUtil = {
 	// 是否是测试环境
@@ -44,9 +31,12 @@ export const SysUtil = {
 	},
 	// 是否本地IP地址
 	isLocalIP: async (ip: string) => {
-		const localIP4 = await SysUtil.localIP4();
-		const localIP6 = await SysUtil.localIP6();
-		return localIP4.includes(ip) || localIP6.includes(ip);
+		const internalIP = await SysUtil.localIP4();
+
+		if (ip.includes(internalIP) || ip.includes(BASE.LOCAL_IP)) {
+			return true;
+		}
+		return false;
 	},
 	// 解析IP地址
 	parseIP: async (ip: string) => {
@@ -58,20 +48,14 @@ export const SysUtil = {
 	},
 	// 解析用户代理字符串
 	parseUA: (ua: string) => {
-		try {
-			const parser = UAParser(ua);
-			return parser;
-		} catch (error) {
-			// 如果解析失败，返回默认对象或处理错误
-			console.error('UA解析失败:', error);
-			return {};
-		}
-		// const { browser, cpu, device } = UAParser(ua);
+		const uaParser = new UAParser(ua, {
+			browser: [
+				[/(apifox)\/([\w.]+)/i],
+				[UAParser.BROWSER.NAME, UAParser.BROWSER.VERSION],
+			],
+		});
 
-		// console.log(browser.name); // Maemo Browser
-		// console.log(cpu.is('arm')); // true
-		// console.log(device.is('mobile')); // true
-		// console.log(device.model); // N900
+		return uaParser.getResult();
 	},
 	// 解析地址
 	parseAddress: async (ip: string) => {
@@ -100,9 +84,24 @@ export const SysUtil = {
 		return `${province} ${city}`;
 	},
 	// 系统信息
-	sysinfo: systeminformation,
+	si,
 	// ID 生成器
 	nanoid,
 	// `.properties` 解析
 	getProperties,
 };
+
+/**
+ * 获取默认网路信息
+ */
+async function getDefaultNetwork(): Promise<Systeminformation.NetworkInterfacesData> {
+	try {
+		const si = require('systeminformation');
+		// 获取默认网络接口信息
+		const network = await si.networkInterfaces('default');
+		return network; // 返回网络接口数据
+	} catch (error) {
+		// 如果发生错误，抛出 BadRequestException 异常
+		throw new BadRequestException(MESSAGES.GET_DEFAULT_NETWORK_FAILED);
+	}
+}

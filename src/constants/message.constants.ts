@@ -119,4 +119,9 @@ export enum MESSAGES {
 	 * 文件上传失败
 	 */
 	FILE_UPLOAD_FAILED = '文件上传失败',
+
+	/**
+	 * 获取默认网络信息失败
+	 */
+	GET_DEFAULT_NETWORK_FAILED = '获取默认网络信息失败',
 }
