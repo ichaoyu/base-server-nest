@@ -43,8 +43,9 @@ export class AuthService {
 	async handleLogin(body: LoginDTO) {
 		const { userName, password, captchaId, captchaValue } = body;
 		const passed = await this.captchaService.check(captchaId, captchaValue);
+		// 验证码错误
 		if (!passed && !SysUtil.isTesting) {
-			// throw new BadRequestException(MESSAGES.CAPTCHA_NOT_CORRECT);
+			throw new BadRequestException(MESSAGES.CAPTCHA_NOT_CORRECT);
 		}
 		const user = await this.userModel
 			.createQueryBuilder('user')
@@ -72,7 +73,6 @@ export class AuthService {
 		const tokenId = SysUtil.nanoid();
 		const userId = user.id;
 		// 保存登录日志
-		console.log('isMatch: ', isMatch);
 		if (!isMatch) {
 			this.loginLogQueue.add({
 				userName,

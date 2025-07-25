@@ -32,23 +32,24 @@ export default registerAs('', () => {
 			autoLoadEntities: true,
 		},
 		cache: {
+			// keyPrefix: `{${BASE.APP_NAME}}:{cache}:`,
 			stores: [
 				new Keyv({
 					store: new KeyvRedis({
 						url: `redis://${redisOptions.host}:${redisOptions.port}/${redisOptions.db}`,
 					}),
-					namespace: '{' + BASE.APP_NAME + '}:{cache}:',
+					namespace: `{${BASE.APP_NAME}}:{cache}:`,
 					useKeyPrefix: false, // 去掉重复的namespace
 				}),
 			],
 		},
 		redis: {
-			keyPrefix: '{' + BASE.APP_NAME + '}:{redis}:',
+			keyPrefix: `{${BASE.APP_NAME}}:{redis}:`,
 			...redisOptions,
 		},
 		bull: {
 			redis: {
-				keyPrefix: '{' + BASE.APP_NAME + '}:{bull}',
+				keyPrefix: `{${BASE.APP_NAME}}:{bull}:`,
 				...redisOptions,
 			},
 		},
