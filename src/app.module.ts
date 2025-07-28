@@ -8,6 +8,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 
 import { RedisModule } from '@app/redis';
 import { CaptchaModule } from '@app/captcha';
+import { ExcelModule } from '@app/excel';
 
 import config from './config';
 import { LOGGER_OPTIONS } from './utils';
@@ -54,6 +55,9 @@ import { DefaultExceptionFilter, NotFoundExceptionFilter, ValidationExceptionFil
         },
         inject: [ConfigService],
       },
+    }),
+    ExcelModule.registerAsync({
+      global: true,
     }),
     RedisModule.registerAsync({
       global: true,

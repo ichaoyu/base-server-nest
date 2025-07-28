@@ -13,6 +13,8 @@
   "moduleNameMapper": {
     "@app/captcha": "<rootDir>/../libs/captcha/src",
     "@app/captcha/(.*)": "<rootDir>/../libs/captcha/src/$1",
+    "@app/excel": "<rootDir>/../libs/excel/src",
+    "@app/excel/(.*)": "<rootDir>/../libs/excel/src/$1",
     "@app/redis": "<rootDir>/../libs/redis/src",
     "@app/redis/(.*)": "<rootDir>/../libs/redis/src/$1"
   }

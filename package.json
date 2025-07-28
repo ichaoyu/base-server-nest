@@ -45,6 +45,7 @@
     "case-anything": "^3.1.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+    "exceljs": "^4.4.0",
     "fastify": "^5.4.0",
     "ioredis": "^5.6.1",
     "keyv": "^5.4.0",
@@ -112,6 +113,7 @@
     ],
     "moduleNameMapper": {
       "^@app/captcha(|/.*)$": "<rootDir>/libs/captcha/src/$1",
+      "^@app/excel(|/.*)$": "<rootDir>/libs/excel/src/$1",
       "^@app/redis(|/.*)$": "<rootDir>/libs/redis/src/$1"
     }
   }
