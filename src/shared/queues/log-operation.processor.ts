@@ -10,25 +10,24 @@ import { SysUtil } from '@/utils';
  */
 @Processor(QUEUES.OPER_LOG)
 export class OperationLogProcessor {
-	constructor(private readonly sharedService: SharedService) {}
+  constructor(private readonly sharedService: SharedService) {}
 
-	@Process()
-	async execute(job: Job<any>) {
-		const { ip, operName, ...rest } = job.data;
-		const userWithDept =
-			await this.sharedService.getUserWithDeptByName(operName);
-		const deptName = userWithDept?.dept?.deptName ?? '';
-		const operIp = await SysUtil.parseIP(ip);
-		const operLocation = await SysUtil.parseAddress(operIp);
+  @Process()
+  async execute(job: Job<any>) {
+    const { ip, operName, ...rest } = job.data;
+    const userWithDept = await this.sharedService.getUserWithDeptByName(operName);
+    const deptName = userWithDept?.dept?.deptName ?? '';
+    const operIp = await SysUtil.parseIP(ip);
+    const operLocation = await SysUtil.parseAddress(operIp);
 
-		await this.sharedService.setOperLog({
-			...rest,
-			deptName,
-			operName,
-			operIp,
-			operLocation,
-		});
+    await this.sharedService.setOperLog({
+      ...rest,
+      deptName,
+      operName,
+      operIp,
+      operLocation,
+    });
 
-		return {};
-	}
+    return {};
+  }
 }

@@ -11,11 +11,11 @@ export class LoginVO extends ResultVO(String) {}
  * 图形验证码响应传输对象
  */
 class CaptchaVO {
-	@ApiProperty({ description: '验证码ID' })
-	id: string;
+  @ApiProperty({ description: '验证码ID' })
+  id: string;
 
-	@ApiProperty({ description: '验证码编码' })
-	imageBase64: string;
+  @ApiProperty({ description: '验证码编码' })
+  imageBase64: string;
 }
 
 /**

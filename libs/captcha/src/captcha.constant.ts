@@ -34,17 +34,17 @@ export const letters = lowerCaseLetters + lowerCaseLetters.toUpperCase();
  * 默认配置
  */
 export const defaultOptions: CaptchaOptions = {
-	default: {
-		size: 4,
-		noise: 1,
-		width: 120,
-		height: 40,
-	},
-	image: {
-		type: 'mixed',
-	},
-	formula: {},
-	text: {},
-	expirationTime: 60 * 60 * 1000,
-	idPrefix: 'captcha',
+  default: {
+    size: 4,
+    noise: 1,
+    width: 120,
+    height: 40,
+  },
+  image: {
+    type: 'mixed',
+  },
+  formula: {},
+  text: {},
+  expirationTime: 60 * 60 * 1000,
+  idPrefix: 'captcha',
 };
