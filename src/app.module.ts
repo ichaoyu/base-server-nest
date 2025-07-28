@@ -10,8 +10,7 @@ import { RedisModule } from '@app/redis';
 import { CaptchaModule } from '@app/captcha';
 import { ExcelModule } from '@app/excel';
 
-import config from './config';
-import { LOGGER_OPTIONS } from './utils';
+import config, { LOGGER_OPTIONS } from '@/config';
 import { SharedModule, QueuesModule } from './shared';
 import { ApiModule } from './apis';
 import { ResponseInterceptor, CacheKeyInterceptor, OperLogInterceptor } from './interceptors';
@@ -22,8 +21,8 @@ import { DefaultExceptionFilter, NotFoundExceptionFilter, ValidationExceptionFil
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [config],
       isGlobal: true,
+      load: [config],
     }),
     WinstonModule.forRootAsync(LOGGER_OPTIONS),
     TypeOrmModule.forRootAsync({
