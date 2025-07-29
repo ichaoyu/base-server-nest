@@ -18,6 +18,10 @@ export default registerAs('', () => {
       appName: BASE.APP_NAME,
       queuePath: '/queues',
     },
+    basicAuth: {
+      username: 'admin',
+      password: '123456',
+    },
     typeorm: {
       type: 'mysql',
       host: '127.0.0.1',

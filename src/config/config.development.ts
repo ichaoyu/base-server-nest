@@ -20,6 +20,10 @@ export default registerAs('', () => {
       queuePath: '/queues',
       uploadFile: BASE.UPLOAD_FILE,
     },
+    basicAuth: {
+      username: 'admin',
+      password: '123456',
+    },
     typeorm: {
       type: 'mysql',
       host: '127.0.0.1',
