@@ -8,6 +8,7 @@ import fastifyCsrf from '@fastify/csrf-protection';
 import helmet from '@fastify/helmet';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import fastifyBasicAuth from '@fastify/basic-auth';
+import { WsAdapter } from '@nestjs/platform-ws';
 import { isEqual } from 'lodash-unified';
 
 import { AppModule } from './app.module';
@@ -60,6 +61,10 @@ async function bootstrap() {
       done();
     }
   });
+
+  // WebSocket
+  const webSocketAdapter = new WsAdapter(app);
+  app.useWebSocketAdapter(webSocketAdapter);
 
   /**
    * 默认情况下，Fastify 仅监听 localhost 127.0.0.1 接口。只有配置了 0.0.0.0 才能用本机 ip 访问

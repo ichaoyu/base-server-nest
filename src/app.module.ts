@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService, ConditionalModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { WinstonModule } from 'nest-winston';
 import { CacheModule } from '@nestjs/cache-manager';
 
-import { RedisModule } from '@app/redis';
+import { RedisModule, REDIS_CLIENT, REDIS_CLIENT_OPTIONS } from '@app/redis';
 import { CaptchaModule } from '@app/captcha';
 import { ExcelModule } from '@app/excel';
+import { EventsModule } from './events';
 
 import config, { LOGGER_OPTIONS } from '@/config';
 import { SharedModule, QueuesModule } from './shared';
@@ -17,6 +18,7 @@ import { ResponseInterceptor, CacheKeyInterceptor, OperLogInterceptor } from './
 import { ValidationPipe } from './pipes';
 import { AuthGuard } from './guards';
 import { DefaultExceptionFilter, NotFoundExceptionFilter, ValidationExceptionFilter } from './filters';
+import { SysUtil } from './utils';
 
 @Module({
   imports: [
@@ -61,13 +63,14 @@ import { DefaultExceptionFilter, NotFoundExceptionFilter, ValidationExceptionFil
     RedisModule.registerAsync({
       global: true,
       createType: 'client',
-      clientToken: Symbol('REDIS_CLIENT'),
-      optionsToken: Symbol('REDIS_CLIENT_OPTIONS'),
+      clientToken: REDIS_CLIENT,
+      optionsToken: REDIS_CLIENT_OPTIONS,
       optionsProvider: {
         useFactory: (configService: ConfigService) => configService.get('redis'),
         inject: [ConfigService],
       },
     }),
+    ConditionalModule.registerWhen(EventsModule, () => !SysUtil.isTesting),
     QueuesModule.register(),
     SharedModule,
     ApiModule,

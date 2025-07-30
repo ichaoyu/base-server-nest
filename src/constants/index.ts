@@ -3,3 +3,4 @@ export * from './message.constants';
 export * from './cache.contants';
 export * from './queues.constants';
 export * from './entities.contants';
+export * from './event.constants';
