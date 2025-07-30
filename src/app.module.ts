@@ -9,10 +9,9 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { RedisModule, REDIS_CLIENT, REDIS_CLIENT_OPTIONS } from '@app/redis';
 import { CaptchaModule } from '@app/captcha';
 import { ExcelModule } from '@app/excel';
-import { EventsModule } from './events';
+import { SharedModule, QueuesModule, EventsModule } from './shared';
 
-import config, { LOGGER_OPTIONS } from '@/config';
-import { SharedModule, QueuesModule } from './shared';
+import config, { LOGGER_OPTIONS } from './config';
 import { ApiModule } from './apis';
 import { ResponseInterceptor, CacheKeyInterceptor, OperLogInterceptor } from './interceptors';
 import { ValidationPipe } from './pipes';
